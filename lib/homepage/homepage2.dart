@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:workzen/homepage/carousel_slider.dart';
@@ -42,7 +44,7 @@ class Home extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               },
             ),
@@ -57,18 +59,18 @@ class Home extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('Phone'),
+              leading: const Icon(Icons.phone),
+              title: const Text('Phone'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Terms & Conditions'),
+              leading: const Icon(Icons.info),
+              title: const Text('Terms & Conditions'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.share),
-              title: Text('Share'),
+              leading: const Icon(Icons.share),
+              title: const Text('Share'),
               onTap: () {},
             ),
           ],
@@ -106,14 +108,15 @@ class Home extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Homepage()),
+                        MaterialPageRoute(
+                            builder: (context) => const Homepage()),
                       );
                     },
                     child: Card(
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -139,14 +142,15 @@ class Home extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => JobList()),
+                        MaterialPageRoute(
+                            builder: (context) => const JobList()),
                       );
                     },
                     child: Card(
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -173,14 +177,15 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SchoolJobScreen()),
+                          builder: (context) => const SchoolJobScreen(),
+                        ),
                       );
                     },
                     child: Card(
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -223,7 +228,7 @@ class Home extends StatelessWidget {
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -257,7 +262,7 @@ class Home extends StatelessWidget {
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -284,14 +289,14 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MedicalStoreScreen()),
+                            builder: (context) => const MedicalStoreScreen()),
                       );
                     },
                     child: Card(
                       elevation: 4,
                       child: Container(
                         // width: 200,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
                             Icon(
@@ -320,7 +325,8 @@ class Home extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MedicalStoreScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const MedicalStoreScreen()),
                 );
               },
               child: Card(
@@ -350,7 +356,7 @@ class Home extends StatelessWidget {
                   child: Container(
                     // width: 100,
                     // height: 100,
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: const Column(
                       children: [
                         Icon(
@@ -370,7 +376,7 @@ class Home extends StatelessWidget {
                   child: Container(
                     // width: 100,
                     // height: 100,
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: const Column(
                       children: [
                         Icon(

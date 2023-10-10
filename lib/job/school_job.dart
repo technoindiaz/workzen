@@ -1,9 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:workzen/job/add_job_form.dart';
+import 'package:share/share.dart';
 
 class SchoolJobScreen extends StatefulWidget {
   const SchoolJobScreen({super.key});
@@ -46,64 +47,46 @@ class _SchoolJobScreenState extends State<SchoolJobScreen> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final item = snapshot.data![index];
+                final phoneNumber = item['mobile_phone'].toString();
+                final websiteUrl = item['website'];
+                final imageUrl = item['post_image'];
+                final postDescription = item['post_description'];
+
                 return Card(
-                  elevation: 4.0, // Add elevation for a shadow effect
-                  margin: const EdgeInsets.all(16.0), // Add margin for spacing
+                  elevation: 4.0,
+                  margin: const EdgeInsets.all(16.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Image.network(
-                          item[
-                              'post_image'], // Replace with the URL of your image field
-                          // width: 50.0, // Set the desired width for the image
-                          // height: 50.0, // Set the desired height for the image
-                          // fit: BoxFit.cover, // Adjust the fit as needed
-                        ),
+                        Image.network(imageUrl),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  Uri phoneno = Uri.parse('tel:+917388708678');
-                                  if (await launchUrl(phoneno)) {
-                                    //dialer opened
-                                  } else {
-                                    //dailer is not opened
-                                  }
-                                },
-                                icon: Icon(Icons.phone),
-                                label: Text('Call'),
+                                onPressed: () => _callNumber(phoneNumber),
+                                icon: const Icon(Icons.phone),
+                                label: const Text('Call'),
                               ),
                             ),
+                            if (websiteUrl != null)
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: ElevatedButton.icon(
+                                  onPressed: () => _openWebsite(websiteUrl),
+                                  icon: const Icon(Icons.link),
+                                  label: const Text('Website'),
+                                ),
+                              ),
                             Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  const url = 'https://technoindiaz.com';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                },
-                                icon: Icon(Icons.web_rounded),
-                                label: Text('Website'),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: ElevatedButton.icon(
-                                // style: ButtonStyle(backgroundColor: Colors.black),
-                                onPressed: () {
-                                  Share.share(
-                                      'check out my website https://example.com',
-                                      subject: 'Look what I made!');
-                                },
-                                icon: Icon(Icons.share),
-                                label: Text('share'),
+                                onPressed: () =>
+                                    _shareJobDetail(context, postDescription),
+                                icon: const Icon(Icons.share),
+                                label: const Text('Share'),
                               ),
                             ),
                           ],
@@ -122,22 +105,39 @@ class _SchoolJobScreenState extends State<SchoolJobScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => JobForm()),
+            MaterialPageRoute(builder: (context) => AddJobPage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-
-  launchUrl(Uri phoneno) {}
-
-  canLaunch(String url) {}
-
-  launch(String url) {}
 }
 
-class Share {
-  static void share(String s, {required String subject}) {}
+void _callNumber(String phoneNumber) async {
+  String url = "tel://+91 $phoneNumber";
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not call $phoneNumber';
+  }
+}
+
+void _openWebsite(String? websiteUrl) async {
+  if (websiteUrl != null && await canLaunch(websiteUrl)) {
+    await launch(websiteUrl);
+  } else {
+    throw 'Could not launch website';
+  }
+}
+
+void _shareJobDetail(BuildContext context, String jobDescription) {
+  final RenderBox box = context.findRenderObject() as RenderBox;
+  final String text = 'Check out this job: $jobDescription';
+
+  Share.share(
+    text,
+    sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+  );
 }

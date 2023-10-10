@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:workzen/homepage/carousel_slider.dart';
@@ -51,13 +53,13 @@ class Homepage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VideshJobScreen()),
+                              builder: (context) => const VideshJobScreen()),
                         );
                       },
                       child: Card(
                         elevation: 4,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Column(
                               children: [
@@ -80,14 +82,14 @@ class Homepage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => JobList()),
+                          MaterialPageRoute(builder: (context) => const JobList()),
                         );
                       },
                       child: SizedBox(
                         child: Card(
                           elevation: 4,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
                                 Image.asset(
@@ -111,7 +113,7 @@ class Homepage extends StatelessWidget {
               Card(
                 elevation: 4,
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Image.asset(
@@ -130,7 +132,7 @@ class Homepage extends StatelessWidget {
               Card(
                 elevation: 4,
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Image.asset(

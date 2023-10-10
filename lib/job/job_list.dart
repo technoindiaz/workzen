@@ -29,6 +29,7 @@ class _JobListState extends State<JobList> {
               post_name: jobpost['post_name'],
               post_image: jobpost['post_image'],
               mobile_phone: jobpost['mobile_phone'],
+              website: jobpost['website'],
               city: jobpost['city'],
               post_description: jobpost['post_description']);
           myJobPost.add(j);
@@ -133,7 +134,7 @@ class _JobListState extends State<JobList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => JobForm()),
+            MaterialPageRoute(builder: (context) => AddJobPage()),
           );
         },
         child: Icon(Icons.add),
