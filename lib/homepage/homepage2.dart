@@ -177,7 +177,7 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SchoolJobScreen(),
+                          builder: (context) => HospitalJobScreen(),
                         ),
                       );
                     },
@@ -196,7 +196,7 @@ class Home extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'स्कूल जॉब',
+                              'हॉस्पिटल जॉब',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -211,116 +211,116 @@ class Home extends StatelessWidget {
               ),
             ),
             // Card 2
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HospitalJobScreen()),
-                      );
-                    },
-                    child: Card(
-                      elevation: 4,
-                      child: Container(
-                        // width: 200,
-                        padding: const EdgeInsets.all(16),
-                        child: const Column(
-                          children: [
-                            Icon(
-                              Icons.hotel_sharp,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'हॉस्पिटल जॉब',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HotelJobScreen()),
-                      );
-                    },
-                    child: Card(
-                      elevation: 4,
-                      child: Container(
-                        // width: 200,
-                        padding: const EdgeInsets.all(16),
-                        child: const Column(
-                          children: [
-                            Icon(
-                              Icons.hotel_class,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'रेस्टुरेंट जॉब',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MedicalStoreScreen()),
-                      );
-                    },
-                    child: Card(
-                      elevation: 4,
-                      child: Container(
-                        // width: 200,
-                        padding: const EdgeInsets.all(16),
-                        child: const Column(
-                          children: [
-                            Icon(
-                              Icons.medical_information,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'मेडिकल स्टोर',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       InkWell(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => HospitalJobScreen()),
+            //           );
+            //         },
+            //         child: Card(
+            //           elevation: 4,
+            //           child: Container(
+            //             // width: 200,
+            //             padding: const EdgeInsets.all(16),
+            //             child: const Column(
+            //               children: [
+            //                 Icon(
+            //                   Icons.hotel_sharp,
+            //                   size: 30,
+            //                 ),
+            //                 SizedBox(
+            //                   width: 15,
+            //                 ),
+            //                 Text(
+            //                   'हॉस्पिटल जॉब',
+            //                   style: TextStyle(
+            //                     fontSize: 12,
+            //                     fontWeight: FontWeight.bold,
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       InkWell(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => HotelJobScreen()),
+            //           );
+            //         },
+            //         child: Card(
+            //           elevation: 4,
+            //           child: Container(
+            //             // width: 200,
+            //             padding: const EdgeInsets.all(16),
+            //             child: const Column(
+            //               children: [
+            //                 Icon(
+            //                   Icons.hotel_class,
+            //                   size: 30,
+            //                 ),
+            //                 SizedBox(
+            //                   width: 15,
+            //                 ),
+            //                 Text(
+            //                   'रेस्टुरेंट जॉब',
+            //                   style: TextStyle(
+            //                     fontSize: 12,
+            //                     fontWeight: FontWeight.bold,
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       InkWell(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => const MedicalStoreScreen()),
+            //           );
+            //         },
+            //         child: Card(
+            //           elevation: 4,
+            //           child: Container(
+            //             // width: 200,
+            //             padding: const EdgeInsets.all(16),
+            //             child: const Column(
+            //               children: [
+            //                 Icon(
+            //                   Icons.medical_information,
+            //                   size: 30,
+            //                 ),
+            //                 SizedBox(
+            //                   width: 10,
+            //                 ),
+            //                 Text(
+            //                   'मेडिकल स्टोर',
+            //                   style: TextStyle(
+            //                     fontSize: 12,
+            //                     fontWeight: FontWeight.bold,
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 Navigator.push(

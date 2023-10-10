@@ -1,0 +1,139 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/material.dart';
+import 'package:workzen/job/add_job_form.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
+import 'package:workzen/apis/apis.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:workzen/models/models.dart';
+
+class TelephonicInterview extends StatefulWidget {
+  const TelephonicInterview({super.key});
+
+  @override
+  State<TelephonicInterview> createState() => _TelephonicInterviewState();
+}
+
+class _TelephonicInterviewState extends State<TelephonicInterview> {
+  List<JobPost> myJobPost = [];
+  void fetchData() async {
+    try {
+      http.Response response = await http.get(Uri.parse(api));
+      var data = json.decode(response.body);
+      data.forEach(
+        (jobpost) {
+          JobPost j = JobPost(
+              post_name: jobpost['post_name'],
+              post_image: jobpost['post_image'],
+              mobile_phone: jobpost['mobile_phone'],
+              website: jobpost['website'],
+              city: jobpost['city'],
+              post_description: jobpost['post_description']);
+          myJobPost.add(j);
+        },
+      );
+      print(myJobPost.length);
+    } catch (e) {
+      print("Error is $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Telephonic Interview'),
+        backgroundColor: Colors.orange,
+      ),
+      body: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              elevation: 4,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('assets/images/Hospital Add.png'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            Uri phoneno = Uri.parse('tel:+917388708678');
+                            if (await launchUrl(phoneno)) {
+                              //dialer opened
+                            } else {
+                              //dailer is not opened
+                            }
+                          },
+                          icon: Icon(Icons.phone),
+                          label: Text('Call'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            const url = 'https://technoindiaz.com';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          icon: Icon(Icons.web_rounded),
+                          label: Text('Website'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ElevatedButton.icon(
+                          // style: ButtonStyle(backgroundColor: Colors.black),
+                          onPressed: () {
+                            Share.share(
+                                'check out my website https://example.com',
+                                subject: 'Look what I made!');
+                          },
+                          icon: Icon(Icons.share),
+                          label: Text('share'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    '25-09-2023',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddJobPage()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+}
