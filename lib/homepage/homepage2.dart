@@ -92,7 +92,7 @@ class Home extends StatelessWidget {
             const MarqueeText(
               text: TextSpan(
                   text:
-                      'Note: Please contact for any advertisement and query: Team Videsh Flight'),
+                      'Note: Please contact for any advertisement and query: Team Workzen'),
               style: TextStyle(
                   fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
               speed: 20,
@@ -177,7 +177,7 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SchoolJobScreen(),
+                          builder: (context) => SchoolJobScreen(),
                         ),
                       );
                     },
@@ -196,7 +196,7 @@ class Home extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'स्कूल जॉब',
+                              'School Job',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,

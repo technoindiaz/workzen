@@ -3,6 +3,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AddJobPage extends StatefulWidget {
   const AddJobPage({super.key});
@@ -120,27 +122,50 @@ class _AddJobPageState extends State<AddJobPage> {
                 height: 40,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                  onPressed: () {
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () async {
+                    Map<String, dynamic> formData;
+
+                    String mobileNumber = mobileNumberController.text;
+                    String jobName = jobNameController.text;
+                    String website = websiteController.text;
+                    String jobDescription = jobDescriptionController.text;
+
+                    if (_image != null) {
+                      List<int> imageBytes = await _image!.readAsBytes();
+                      String base64Image = base64Encode(imageBytes);
+                      formData = {
+                        'mobileNumber': mobileNumber,
+                        'jobName': jobName,
+                        'website': website,
+                        'jobDescription': jobDescription,
+                        'jobImage': base64Image, // Add the image data
+                      };
+                      print('Image Path: ${_image!.path}');
+                    } else {
+                      formData = {
+                        'mobileNumber': mobileNumber,
+                        'jobName': jobName,
+                        'website': website,
+                        'jobDescription': jobDescription,
+                      };
+                      print('No Image is selected');
+                    }
+
                     if (_formKey.currentState!.validate()) {
                       // Form data is valid, you can submit it
                       // Access the form data using controllers:
-                      String mobileNumber = mobileNumberController.text;
-                      String jobName = jobNameController.text;
-                      String website = websiteController.text;
-                      String jobDescription = jobDescriptionController.text;
-
-                      // Print the input data
                       print('Mobile Number: $mobileNumber');
                       print('Job Name: $jobName');
                       print('Website: $website');
                       print('Job Description: $jobDescription');
 
-                      if (_image != null) {
-                        print('Image Path: ${_image!.path}');
-                      }
+                      // Call the submitForm method with the formData
+                      submitForm(formData);
                     }
                   },
                   child: const Text(
@@ -154,5 +179,23 @@ class _AddJobPageState extends State<AddJobPage> {
         ),
       ),
     );
+  }
+}
+
+Future<void> submitForm(Map<String, dynamic> formData) async {
+  final url = Uri.parse(
+      'https://technoindiaz.pythonanywhere.com/api/job-list'); // Update the URL
+  final headers = {"Content-Type": "application/json"};
+  final body = jsonEncode(formData);
+
+  final response = await http.post(url, headers: headers, body: body);
+
+  if (response.statusCode == 201) {
+    // Successfully saved data to Django backend
+  } else {
+    // Print detailed error information
+    print('Error encountered while sending data to the backend:');
+    print('HTTP Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
   }
 }
