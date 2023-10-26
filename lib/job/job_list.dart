@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
@@ -19,33 +19,33 @@ class JobList extends StatefulWidget {
 
 class _JobListState extends State<JobList> {
   List<JobPost> myJobPost = [];
-  void fetchData() async {
-    try {
-      http.Response response = await http.get(Uri.parse(api));
-      var data = json.decode(response.body);
-      data.forEach(
-        (jobpost) {
-          JobPost j = JobPost(
-              post_name: jobpost['post_name'],
-              post_image: jobpost['post_image'],
-              mobile_phone: jobpost['mobile_phone'],
-              website: jobpost['website'],
-              city: jobpost['city'],
-              post_description: jobpost['post_description']);
-          myJobPost.add(j);
-        },
-      );
-      print(myJobPost.length);
-    } catch (e) {
-      print("Error is $e");
-    }
-  }
+  // void fetchData() async {
+  //   try {
+  //     http.Response response = await http.get(Uri.parse(api));
+  //     var data = json.decode(response.body);
+  //     data.forEach(
+  //       (jobpost) {
+  //         JobPost j = JobPost(
+  //             post_name: jobpost['post_name'],
+  //             post_image: jobpost['post_image'],
+  //             mobile_phone: jobpost['mobile_phone'],
+  //             website: jobpost['website'],
+  //             city: jobpost['city'],
+  //             post_description: jobpost['post_description']);
+  //         myJobPost.add(j);
+  //       },
+  //     );
+  //     print(myJobPost.length);
+  //   } catch (e) {
+  //     print("Error is $e");
+  //   }
+  // }
 
-  @override
-  void initState() {
-    fetchData();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   fetchData();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +83,8 @@ class _JobListState extends State<JobList> {
                               //dailer is not opened
                             }
                           },
-                          icon: Icon(Icons.phone),
-                          label: Text('Call'),
+                          icon: const Icon(Icons.phone),
+                          label: const Text('Call'),
                         ),
                       ),
                       Padding(
@@ -98,8 +98,8 @@ class _JobListState extends State<JobList> {
                               throw 'Could not launch $url';
                             }
                           },
-                          icon: Icon(Icons.web_rounded),
-                          label: Text('Website'),
+                          icon: const Icon(Icons.web_rounded),
+                          label: const Text('Website'),
                         ),
                       ),
                       Padding(
@@ -111,8 +111,8 @@ class _JobListState extends State<JobList> {
                                 'check out my website https://example.com',
                                 subject: 'Look what I made!');
                           },
-                          icon: Icon(Icons.share),
-                          label: Text('share'),
+                          icon: const Icon(Icons.share),
+                          label: const Text('share'),
                         ),
                       ),
                     ],
@@ -134,10 +134,10 @@ class _JobListState extends State<JobList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddJobPage()),
+            MaterialPageRoute(builder: (context) => const AddJobPage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

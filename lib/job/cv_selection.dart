@@ -1,4 +1,5 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, depend_on_referenced_packages
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -6,15 +7,17 @@ import 'package:http/http.dart' as http;
 import 'package:workzen/job/add_job_form.dart';
 import 'package:share/share.dart';
 
-class HospitalJobScreen extends StatefulWidget {
+class CVSelectionPage extends StatefulWidget {
+  const CVSelectionPage({super.key});
+
   @override
-  _HospitalJobScreenState createState() => _HospitalJobScreenState();
+  State<CVSelectionPage> createState() => _CVSelectionPageState();
 }
 
-class _HospitalJobScreenState extends State<HospitalJobScreen> {
+class _CVSelectionPageState extends State<CVSelectionPage> {
   Future<List<dynamic>> fetchData() async {
-    final response = await http.get(Uri.parse(
-        'https://technoindiaz.pythonanywhere.com/api/hospital_me_job/'));
+    final response = await http.get(
+        Uri.parse('https://technoindiaz.pythonanywhere.com/api/cv-selection/'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -27,18 +30,18 @@ class _HospitalJobScreenState extends State<HospitalJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hospital Job List'),
+        title: const Text('CV Selection'),
         backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text('No data available');
+            return const Text('No data available');
           } else {
             // Use a ListView.builder to display items in cards
             return ListView.builder(
@@ -123,11 +126,10 @@ void _callNumber(String phoneNumber) async {
 }
 
 void _openWebsite(String? websiteUrl) async {
-  // const url = websiteUrl;
-  if (await canLaunch(websiteUrl!)) {
+  if (websiteUrl != null && await canLaunch(websiteUrl)) {
     await launch(websiteUrl);
   } else {
-    throw 'Could not launch $websiteUrl';
+    throw 'Could not launch website';
   }
 }
 

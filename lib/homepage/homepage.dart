@@ -3,7 +3,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:workzen/homepage/carousel_slider.dart';
-import 'package:workzen/job/job_list.dart';
+import 'package:workzen/job/client_interview.dart';
+import 'package:workzen/job/cv_selection.dart';
 import 'package:workzen/job/license_holder_job.dart';
 
 import 'package:workzen/job/telephonic_job.dart';
@@ -59,23 +60,33 @@ class Homepage extends StatelessWidget {
                               builder: (context) => const VideshJobScreen()),
                         );
                       },
-                      child: Card(
-                        elevation: 4,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/images/client.png',
-                                  width: 100,
-                                  height: 50,
-                                ),
-                                const Text(
-                                  'Client Interview',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ClientInterview()),
+                          );
+                        },
+                        child: Card(
+                          elevation: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/client.png',
+                                    width: 100,
+                                    height: 50,
+                                  ),
+                                  const Text(
+                                    'Client Interview',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -86,7 +97,7 @@ class Homepage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const JobList()),
+                              builder: (context) => const CVSelectionPage()),
                         );
                       },
                       child: SizedBox(

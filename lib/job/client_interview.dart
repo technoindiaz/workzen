@@ -1,25 +1,28 @@
-// ignore_for_file: deprecated_member_use, depend_on_referenced_packages
-
+// import 'dart:io';
+// import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share/share.dart';
+// import 'package:share/share.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+// import 'package:path_provider/path_provider.dart';
 
-class LicenseHolderPage extends StatefulWidget {
-  const LicenseHolderPage({super.key});
+// import 'package:workzen/models/models.dart';
+
+class ClientInterview extends StatefulWidget {
+  const ClientInterview({super.key});
 
   @override
-  State<LicenseHolderPage> createState() => _LicenseHolderPageState();
+  State<ClientInterview> createState() => _ClientInterviewState();
 }
 
-class _LicenseHolderPageState extends State<LicenseHolderPage> {
+class _ClientInterviewState extends State<ClientInterview> {
   Future<List<dynamic>> fetchData() async {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://technoindiaz.pythonanywhere.com/api/license-holder/'),
+            'https://technoindiaz.pythonanywhere.com/api/client-interview/'),
       );
 
       if (response.statusCode == 200) {
@@ -34,16 +37,10 @@ class _LicenseHolderPageState extends State<LicenseHolderPage> {
   }
 
   @override
-  void initState() {
-    fetchData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('License Holder'),
+        title: const Text('Client Interview'),
         backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<dynamic>>(
@@ -64,40 +61,65 @@ class _LicenseHolderPageState extends State<LicenseHolderPage> {
                 final mobile_phone1 = item['mobile_phone1'].toString();
                 final mobile_phone2 = item['mobile_phone2'].toString();
                 final whatsapp_phone = item['whatsapp_phone'].toString();
+                // final websiteUrl = item['website'];
                 final imageUrl = item['post_image'];
-                final city = item['city'];
-                final updated_at = ['updated_at'];
+                final share = item['share'];
+                // final postDescription = item['post_description'];
 
                 return Card(
                   elevation: 4.0,
-                  margin: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.all(9.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
                         Image.network(imageUrl),
+                        const SizedBox(height: 10),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            // Padding(
+                            //   padding: const EdgeInsets.all(2.0),
+                            //   child: ElevatedButton.icon(
+                            //     onPressed: () => _callNumber(phoneNumber),
+                            //     icon: const Icon(Icons.phone),
+                            //     label: const Text('Call'),
+                            //   ),
+                            // ),
+
                             Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () => _callNumber(mobile_phone1),
-                                icon: const Icon(Icons.phone),
-                                label: const Text('Call'),
+                              child: InkWell(
+                                onTap: () => _callNumber(mobile_phone1),
+                                child: Image.asset(
+                                  'assets/images/call_button.png',
+                                ),
                               ),
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () => _callNumber(mobile_phone2),
-                              icon: const Icon(Icons.phone),
-                              label: const Text('Call'),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: InkWell(
+                                onTap: () => _callNumber(mobile_phone2),
+                                child: Image.asset(
+                                    'assets/images/call_button.png'),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () => _callNumber(whatsapp_phone),
-                                icon: const Icon(Icons.phone),
-                                label: const Text('Call'),
+                              child: InkWell(
+                                onTap: () {
+                                  _launchWhatsapp(context);
+                                },
+                                child: Image.asset(
+                                    'assets/images/chat_button.png'),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: InkWell(
+                                onTap: () => _callNumber(share),
+                                child: Image.asset(
+                                    'assets/images/share_button.png'),
                               ),
                             ),
                           ],
@@ -135,20 +157,16 @@ void _callNumber(String phoneNumber) async {
   }
 }
 
-void _openWebsite(String? websiteUrl) async {
-  if (websiteUrl != null && await canLaunch(websiteUrl)) {
-    await launch(websiteUrl);
+_launchWhatsapp(BuildContext context) async {
+  var whatsapp = "+917388708678";
+  var whatsappAndroid = Uri.parse("whatsapp://send?phone=$whatsapp&text=hello");
+  if (await canLaunchUrl(whatsappAndroid)) {
+    await launchUrl(whatsappAndroid);
   } else {
-    throw 'Could not launch website';
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("WhatsApp is not installed on the device"),
+      ),
+    );
   }
-}
-
-void _shareJobDetail(BuildContext context, String jobDescription) {
-  final RenderBox box = context.findRenderObject() as RenderBox;
-  final String text = 'Check out this job: $jobDescription';
-
-  Share.share(
-    text,
-    sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
-  );
 }

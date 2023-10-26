@@ -27,7 +27,7 @@ class _HotelJobScreenState extends State<HotelJobScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hotel Job List'),
+        title: const Text('Hotel Job List'),
         backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<dynamic>>(

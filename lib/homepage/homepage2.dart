@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:workzen/homepage/carousel_slider.dart';
 import 'package:workzen/homepage/homepage.dart';
 import 'package:marquee_text/marquee_text.dart';
+import 'package:workzen/job/desh_job.dart';
 import 'package:workzen/job/django_app_job_list.dart';
 import 'package:workzen/job/hospital_job.dart';
-import 'package:workzen/job/hotel_job.dart';
-import 'package:workzen/job/job_list.dart';
 import 'package:workzen/job/medical_store.dart';
-import 'package:workzen/job/school_job.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home),
+              leading: const Icon(Icons.home, color: Colors.black),
               title: const Text('Home'),
               onTap: () {
                 Navigator.push(
@@ -49,7 +49,7 @@ class Home extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.facebook),
+              leading: const Icon(Icons.facebook, color: Colors.black),
               title: const Text('Facebook'),
               onTap: () {
                 Navigator.push(
@@ -59,19 +59,32 @@ class Home extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.phone),
-              title: const Text('Phone'),
-              onTap: () {},
+              leading: const Icon(Icons.phone, color: Colors.black),
+              title: const Text(
+                'Contact us',
+              ),
+              onTap: () async {
+                Uri phoneno = Uri.parse('tel:+917379235314');
+                if (await launchUrl(phoneno)) {
+                  //dialer opened
+                } else {
+                  //dailer is not opened
+                }
+              },
             ),
             ListTile(
-              leading: const Icon(Icons.info),
+              leading: const Icon(Icons.info, color: Colors.black),
               title: const Text('Terms & Conditions'),
               onTap: () {},
             ),
             ListTile(
-              leading: const Icon(Icons.share),
+              leading: const Icon(Icons.share, color: Colors.black),
               title: const Text('Share'),
-              onTap: () {},
+              onTap: () {
+                Share.share(
+                    'check out WorkZen https://technoindiaz.pythonanywhere.com/',
+                    subject: 'Find Jobs!');
+              },
             ),
           ],
         ),
@@ -82,17 +95,17 @@ class Home extends StatelessWidget {
             CarouselSlider(
               items: carouselItems,
               options: CarouselOptions(
-                  // height: 200,
+                  height: 200,
                   autoPlay: true,
                   enlargeCenterPage: true,
-                  // viewportFraction: 0.8,
+                  viewportFraction: 0.9,
                   aspectRatio: 16 / 9),
             ),
 
             const MarqueeText(
               text: TextSpan(
                   text:
-                      'Note: Please contact for any advertisement and query: Team Videsh Flight'),
+                      'Note: Please contact for any advertisement and query: Team Workzen'),
               style: TextStyle(
                   fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
               speed: 20,
@@ -143,7 +156,7 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const JobList()),
+                            builder: (context) => const DeshJobScreen()),
                       );
                     },
                     child: Card(
@@ -184,7 +197,7 @@ class Home extends StatelessWidget {
                     child: Card(
                       elevation: 4,
                       child: Container(
-                        // width: 200,
+                        width: 100,
                         padding: const EdgeInsets.all(16),
                         child: const Column(
                           children: [
@@ -196,7 +209,7 @@ class Home extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'हॉस्पिटल जॉब',
+                              'हॉस्पिटल',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -321,6 +334,9 @@ class Home extends StatelessWidget {
             //     ],
             //   ),
             // ),
+            const SizedBox(
+              height: 40,
+            ),
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -334,65 +350,68 @@ class Home extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/job.jpeg',
                   width: double.infinity,
-                  height: 80,
+                  height: 120,
                   fit: BoxFit.fill,
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             Card(
               elevation: 2,
               child: Image.asset(
                 'assets/images/add_banner_2.png',
                 width: double.infinity,
-                height: 80,
+                height: 120,
                 fit: BoxFit.fill,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Card(
-                  elevation: 2,
-                  child: Container(
-                    // width: 100,
-                    // height: 100,
-                    padding: const EdgeInsets.all(16),
-                    child: const Column(
-                      children: [
-                        Icon(
-                          Icons.pages,
-                          size: 24,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Place for Ad')
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 2,
-                  child: Container(
-                    // width: 100,
-                    // height: 100,
-                    padding: const EdgeInsets.all(16),
-                    child: const Column(
-                      children: [
-                        Icon(
-                          Icons.pages,
-                          size: 24,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Place for ad')
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     Card(
+            //       elevation: 2,
+            //       child: Container(
+            //         // width: 100,
+            //         // height: 100,
+            //         padding: const EdgeInsets.all(16),
+            //         child: const Column(
+            //           children: [
+            //             Icon(
+            //               Icons.pages,
+            //               size: 24,
+            //             ),
+            //             SizedBox(
+            //               width: 8,
+            //             ),
+            //             Text('Place for Ad')
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //     Card(
+            //       elevation: 2,
+            //       child: Container(
+            //         // width: 100,
+            //         // height: 100,
+            //         padding: const EdgeInsets.all(16),
+            //         child: const Column(
+            //           children: [
+            //             Icon(
+            //               Icons.pages,
+            //               size: 24,
+            //             ),
+            //             SizedBox(
+            //               width: 8,
+            //             ),
+            //             Text('Place for ad')
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

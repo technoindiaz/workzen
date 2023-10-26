@@ -1,43 +1,30 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
-import 'package:workzen/apis/apis.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:workzen/models/models.dart';
-
-class TelephonicInterview extends StatefulWidget {
+class TelephonicInterview extends StatelessWidget {
   const TelephonicInterview({super.key});
 
-  @override
-  State<TelephonicInterview> createState() => _TelephonicInterviewState();
-}
-
-class _TelephonicInterviewState extends State<TelephonicInterview> {
-  List<JobPost> myJobPost = [];
-  void fetchData() async {
+  Future<List<dynamic>> fetchData() async {
     try {
-      http.Response response = await http.get(Uri.parse(api));
-      var data = json.decode(response.body);
-      data.forEach(
-        (jobpost) {
-          JobPost j = JobPost(
-              post_name: jobpost['post_name'],
-              post_image: jobpost['post_image'],
-              mobile_phone: jobpost['mobile_phone'],
-              website: jobpost['website'],
-              city: jobpost['city'],
-              post_description: jobpost['post_description']);
-          myJobPost.add(j);
-        },
+      final response = await http.get(
+        Uri.parse(
+            'https://technoindiaz.pythonanywhere.com/api/telephonic-interview/'),
       );
-      print(myJobPost.length);
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception(
+            'Failed to load data. Status code: ${response.statusCode}');
+      }
     } catch (e) {
-      print("Error is $e");
+      throw Exception('Failed to load data: $e');
     }
   }
 
@@ -48,92 +35,117 @@ class _TelephonicInterviewState extends State<TelephonicInterview> {
         title: const Text('Telephonic Interview'),
         backgroundColor: Colors.orange,
       ),
-      body: SingleChildScrollView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              elevation: 4,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/images/Hospital Add.png'),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: ElevatedButton.icon(
-                          onPressed: () async {
-                            Uri phoneno = Uri.parse('tel:+917388708678');
-                            if (await launchUrl(phoneno)) {
-                              //dialer opened
-                            } else {
-                              //dailer is not opened
-                            }
-                          },
-                          icon: Icon(Icons.phone),
-                          label: Text('Call'),
+      body: FutureBuilder<List<dynamic>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Text('No data available');
+          } else {
+            // Use a ListView.builder to display items in cards
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final item = snapshot.data![index];
+                final phoneNumber = item['mobile_phone'].toString();
+                final websiteUrl = item['website'];
+                final imageUrl = item['post_image'];
+                final postDescription = item['post_description'];
+
+                return Card(
+                  elevation: 4.0,
+                  margin: const EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Image.network(imageUrl),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () => _callNumber(phoneNumber),
+                                icon: const Icon(Icons.phone),
+                                label: const Text('Call'),
+                              ),
+                            ),
+                            if (websiteUrl != null)
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: ElevatedButton.icon(
+                                  onPressed: () => _openWebsite(websiteUrl),
+                                  icon: const Icon(Icons.link),
+                                  label: const Text('Website'),
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: ElevatedButton.icon(
+                                onPressed: () =>
+                                    _shareJobDetail(context, postDescription),
+                                icon: const Icon(Icons.share),
+                                label: const Text('Share'),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: ElevatedButton.icon(
-                          onPressed: () async {
-                            const url = 'https://technoindiaz.com';
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          icon: Icon(Icons.web_rounded),
-                          label: Text('Website'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: ElevatedButton.icon(
-                          // style: ButtonStyle(backgroundColor: Colors.black),
-                          onPressed: () {
-                            Share.share(
-                                'check out my website https://example.com',
-                                subject: 'Look what I made!');
-                          },
-                          icon: Icon(Icons.share),
-                          label: Text('share'),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const Text(
-                    '25-09-2023',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                );
+              },
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton.small(
+        backgroundColor: Colors.orange,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddJobPage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+}
+
+void _callNumber(String phoneNumber) async {
+  String url = "tel://+91 $phoneNumber";
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not call $phoneNumber';
+  }
+}
+
+void _openWebsite(String? websiteUrl) async {
+  if (websiteUrl != null && await canLaunch(websiteUrl)) {
+    await launch(websiteUrl);
+  } else {
+    throw 'Could not launch website';
+  }
+}
+
+void _shareJobDetail(BuildContext context, String jobDescription) {
+  final RenderBox? box = context.findRenderObject() as RenderBox?;
+  final String text = 'Check out this job: $jobDescription';
+
+  if (box != null) {
+    Share.share(
+      text,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+    );
+  } else {
+    // Handle the case when the RenderBox cannot be found.
+    print('Error: RenderBox not found');
   }
 }
