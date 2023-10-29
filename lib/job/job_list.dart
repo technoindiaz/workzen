@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
-import 'package:workzen/apis/apis.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 import 'package:workzen/models/models.dart';
 

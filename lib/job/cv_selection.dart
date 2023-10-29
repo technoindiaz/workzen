@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, prefer_const_constructors, depend_on_referenced_packages
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, depend_on_referenced_packages, unused_local_variable
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -48,46 +48,59 @@ class _CVSelectionPageState extends State<CVSelectionPage> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final item = snapshot.data![index];
-                final phoneNumber = item['mobile_phone'].toString();
-                final websiteUrl = item['website'];
+                // final post_title = item['post_name'].toString();
+                final mobile_phone1 = item['mobile_phone1'].toString();
+                final mobile_phone2 = item['mobile_phone2'].toString();
+                final whatsapp_phone = item['whatsapp_phone'].toString();
+                // final websiteUrl = item['website'];
                 final imageUrl = item['post_image'];
-                final postDescription = item['post_description'];
+                // final share = item['share'];
+                // final postDescription = item['post_description'];
 
                 return Card(
                   elevation: 4.0,
-                  margin: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.all(9.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
                         Image.network(imageUrl),
+                        const SizedBox(height: 10),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () => _callNumber(phoneNumber),
-                                icon: const Icon(Icons.phone),
-                                label: const Text('Call'),
-                              ),
-                            ),
-                            if (websiteUrl != null)
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: ElevatedButton.icon(
-                                  onPressed: () => _openWebsite(websiteUrl),
-                                  icon: const Icon(Icons.link),
-                                  label: const Text('Website'),
+                              child: InkWell(
+                                onTap: () => _callNumber(mobile_phone1),
+                                child: Image.asset(
+                                  'assets/images/call_button.png',
                                 ),
                               ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () =>
-                                    _shareJobDetail(context, postDescription),
-                                icon: const Icon(Icons.share),
-                                label: const Text('Share'),
+                              child: InkWell(
+                                onTap: () => _callNumber(mobile_phone2),
+                                child: Image.asset(
+                                    'assets/images/call_button.png'),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: InkWell(
+                                onTap: () => _launchWhatsApp(
+                                    whatsapp_phone), // WhatsApp launcher
+                                child: Image.asset(
+                                    'assets/images/chat_button.png'),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: InkWell(
+                                onTap: () => _shareJobPost(item),
+                                child: Image.asset(
+                                    'assets/images/share_button.png'),
                               ),
                             ),
                           ],
@@ -116,6 +129,7 @@ class _CVSelectionPageState extends State<CVSelectionPage> {
   }
 }
 
+
 void _callNumber(String phoneNumber) async {
   String url = "tel://+91 $phoneNumber";
   if (await canLaunch(url)) {
@@ -125,20 +139,25 @@ void _callNumber(String phoneNumber) async {
   }
 }
 
-void _openWebsite(String? websiteUrl) async {
-  if (websiteUrl != null && await canLaunch(websiteUrl)) {
-    await launch(websiteUrl);
+_launchWhatsApp(String phoneNumber) async {
+  final url = "https://api.whatsapp.com/send?phone=$phoneNumber";
+  if (await canLaunch(url)) {
+    await launch(url);
   } else {
-    throw 'Could not launch website';
+    throw 'Whatsapp not available on $phoneNumber';
   }
 }
 
-void _shareJobDetail(BuildContext context, String jobDescription) {
-  final RenderBox box = context.findRenderObject() as RenderBox;
-  final String text = 'Check out this job: $jobDescription';
+void _shareJobPost(Map<String, dynamic> item) {
+  final String post_title = item['post_name'].toString();
+  // final String jobDescription = item['description'].toString();
+  final String imageUrl = item['post_image'].toString();
 
-  Share.share(
-    text,
-    sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
-  );
+  final textToShare = "Check out this job on workzen: $post_title";
+  final imageToShare = imageUrl;
+
+  Share.share(textToShare,
+      subject: post_title,
+      sharePositionOrigin:
+          Rect.fromCenter(center: Offset(0, 0), width: 50, height: 50));
 }

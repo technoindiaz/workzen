@@ -34,7 +34,7 @@ class Home extends StatelessWidget {
                 'info@technoindiaz.com',
               ),
               currentAccountPicture: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/workzen_logo.png'),
+                backgroundImage: AssetImage('assets/images/workzen_new.jpeg'),
                 backgroundColor: Colors.white,
               ),
             ),
@@ -347,8 +347,8 @@ class Home extends StatelessWidget {
               },
               child: Card(
                 elevation: 2,
-                child: Image.asset(
-                  'assets/images/job.jpeg',
+                child: Image.network(
+                  'https://technoindiaz.pythonanywhere.com/media/ad_images/job_banner.jpeg',
                   width: double.infinity,
                   height: 120,
                   fit: BoxFit.fill,
@@ -360,8 +360,8 @@ class Home extends StatelessWidget {
             ),
             Card(
               elevation: 2,
-              child: Image.asset(
-                'assets/images/add_banner_2.png',
+              child: Image.network(
+                'https://technoindiaz.pythonanywhere.com/media/ad_images/tab_backgroung.jpeg',
                 width: double.infinity,
                 height: 120,
                 fit: BoxFit.fill,

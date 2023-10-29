@@ -1,11 +1,14 @@
 // import 'dart:io';
 // import 'package:flutter/gestures.dart';
+// ignore_for_file: deprecated_member_use, non_constant_identifier_names, depend_on_referenced_packages, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:share/share.dart';
+import 'package:share/share.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 // import 'package:path_provider/path_provider.dart';
 
 // import 'package:workzen/models/models.dart';
@@ -58,12 +61,13 @@ class _ClientInterviewState extends State<ClientInterview> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final item = snapshot.data![index];
+                // final post_title = item['post_name'].toString();
                 final mobile_phone1 = item['mobile_phone1'].toString();
                 final mobile_phone2 = item['mobile_phone2'].toString();
                 final whatsapp_phone = item['whatsapp_phone'].toString();
                 // final websiteUrl = item['website'];
                 final imageUrl = item['post_image'];
-                final share = item['share'];
+                // final share = item['share'];
                 // final postDescription = item['post_description'];
 
                 return Card(
@@ -78,15 +82,6 @@ class _ClientInterviewState extends State<ClientInterview> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.all(2.0),
-                            //   child: ElevatedButton.icon(
-                            //     onPressed: () => _callNumber(phoneNumber),
-                            //     icon: const Icon(Icons.phone),
-                            //     label: const Text('Call'),
-                            //   ),
-                            // ),
-
                             Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: InkWell(
@@ -107,9 +102,8 @@ class _ClientInterviewState extends State<ClientInterview> {
                             Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: InkWell(
-                                onTap: () {
-                                  _launchWhatsapp(context);
-                                },
+                                onTap: () => _launchWhatsApp(
+                                    whatsapp_phone), // WhatsApp launcher
                                 child: Image.asset(
                                     'assets/images/chat_button.png'),
                               ),
@@ -117,7 +111,7 @@ class _ClientInterviewState extends State<ClientInterview> {
                             Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: InkWell(
-                                onTap: () => _callNumber(share),
+                                onTap: () => _shareJobPost(item),
                                 child: Image.asset(
                                     'assets/images/share_button.png'),
                               ),
@@ -138,7 +132,7 @@ class _ClientInterviewState extends State<ClientInterview> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddJobPage()),
+            MaterialPageRoute(builder: (context) => const AddJobPage()),
           );
         },
         child: const Icon(Icons.add),
@@ -157,16 +151,25 @@ void _callNumber(String phoneNumber) async {
   }
 }
 
-_launchWhatsapp(BuildContext context) async {
-  var whatsapp = "+917388708678";
-  var whatsappAndroid = Uri.parse("whatsapp://send?phone=$whatsapp&text=hello");
-  if (await canLaunchUrl(whatsappAndroid)) {
-    await launchUrl(whatsappAndroid);
+_launchWhatsApp(String phoneNumber) async {
+  final url = "https://api.whatsapp.com/send?phone=$phoneNumber";
+  if (await canLaunch(url)) {
+    await launch(url);
   } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("WhatsApp is not installed on the device"),
-      ),
-    );
+    throw 'Whatsapp not available on $phoneNumber';
   }
+}
+
+void _shareJobPost(Map<String, dynamic> item) {
+  final String post_title = item['post_name'].toString();
+  // final String jobDescription = item['description'].toString();
+  final String imageUrl = item['post_image'].toString();
+
+  final textToShare = "Check out this job on workzen: $post_title";
+  final imageToShare = imageUrl;
+
+  Share.share(imageToShare,
+      subject: post_title,
+      sharePositionOrigin:
+          Rect.fromCenter(center: Offset(0, 0), width: 50, height: 50));
 }
