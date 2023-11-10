@@ -14,7 +14,7 @@ class TelephonicInterview extends StatelessWidget {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://technoindiaz.pythonanywhere.com/api/telephonic-interview/'),
+            'https://workzen.in/api/telephonic-interview/'),
       );
 
       if (response.statusCode == 200) {

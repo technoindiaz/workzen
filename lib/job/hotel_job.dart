@@ -14,7 +14,7 @@ class HotelJobScreen extends StatefulWidget {
 class _HotelJobScreenState extends State<HotelJobScreen> {
   Future<List<dynamic>> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://technoindiaz.pythonanywhere.com/api/job-posts-by-category/3/'));
+        'https://workzen.in/api/job-posts-by-category/3/'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

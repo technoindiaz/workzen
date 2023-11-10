@@ -8,9 +8,9 @@ import 'package:marquee_text/marquee_text.dart';
 import 'package:workzen/job/desh_job.dart';
 import 'package:workzen/job/django_app_job_list.dart';
 import 'package:workzen/job/hospital_job.dart';
-import 'package:workzen/job/medical_store.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
+import 'package:workzen/job/terms_and_conditions.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
               decoration: const BoxDecoration(color: Colors.orange),
               accountName: const Text('Work Zen'),
               accountEmail: const Text(
-                'info@technoindiaz.com',
+                'info@workzen.in',
               ),
               currentAccountPicture: const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/workzen_new.jpeg'),
@@ -75,14 +75,19 @@ class Home extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.info, color: Colors.black),
               title: const Text('Terms & Conditions'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TermsAndConditions()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.share, color: Colors.black),
               title: const Text('Share'),
               onTap: () {
-                Share.share(
-                    'check out WorkZen https://technoindiaz.pythonanywhere.com/',
+                Share.share('check out WorkZen https://workzen.in/',
                     subject: 'Find Jobs!');
               },
             ),
@@ -190,7 +195,7 @@ class Home extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HospitalJobScreen(),
+                          builder: (context) => const HospitalJobScreen(),
                         ),
                       );
                     },
@@ -337,22 +342,13 @@ class Home extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MedicalStoreScreen()),
-                );
-              },
-              child: Card(
-                elevation: 2,
-                child: Image.network(
-                  'https://technoindiaz.pythonanywhere.com/media/ad_images/job_banner.jpeg',
-                  width: double.infinity,
-                  height: 120,
-                  fit: BoxFit.fill,
-                ),
+            Card(
+              elevation: 2,
+              child: Image.network(
+                'https://workzen.in/media/ad_images/Slider_1.jpeg',
+                width: double.infinity,
+                height: 120,
+                fit: BoxFit.fill,
               ),
             ),
             const SizedBox(
@@ -361,7 +357,7 @@ class Home extends StatelessWidget {
             Card(
               elevation: 2,
               child: Image.network(
-                'https://technoindiaz.pythonanywhere.com/media/ad_images/tab_backgroung.jpeg',
+                'https://workzen.in/media/ad_images/Annkoot-Family-Product.png',
                 width: double.infinity,
                 height: 120,
                 fit: BoxFit.fill,

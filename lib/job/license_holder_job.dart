@@ -19,7 +19,7 @@ class _LicenseHolderPageState extends State<LicenseHolderPage> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://technoindiaz.pythonanywhere.com/api/license-holder/'),
+            'https://workzen.in/api/license-holder/'),
       );
 
       if (response.statusCode == 200) {

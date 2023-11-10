@@ -17,7 +17,7 @@ class CVSelectionPage extends StatefulWidget {
 class _CVSelectionPageState extends State<CVSelectionPage> {
   Future<List<dynamic>> fetchData() async {
     final response = await http.get(
-        Uri.parse('https://technoindiaz.pythonanywhere.com/api/cv-selection/'));
+        Uri.parse('https://workzen.in/api/cv-selection/'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

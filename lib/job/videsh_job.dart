@@ -17,7 +17,7 @@ class VideshJobScreen extends StatefulWidget {
 class _VideshJobScreenState extends State<VideshJobScreen> {
   Future<List<dynamic>> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://technoindiaz.pythonanywhere.com/api/job-posts-by-category/1/'));
+        'https://workzen.in/api/job-posts-by-category/1/'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

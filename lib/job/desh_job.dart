@@ -17,7 +17,7 @@ class _DeshJobScreenState extends State<DeshJobScreen> {
   Future<List<dynamic>> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://technoindiaz.pythonanywhere.com/api/desh_me_job/'),
+        Uri.parse('https://workzen.in/api/desh_me_job/'),
       );
 
       if (response.statusCode == 200) {

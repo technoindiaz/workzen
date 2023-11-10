@@ -24,8 +24,7 @@ class _ClientInterviewState extends State<ClientInterview> {
   Future<List<dynamic>> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://technoindiaz.pythonanywhere.com/api/client-interview/'),
+        Uri.parse('https://workzen.in/client_interview'),
       );
 
       if (response.statusCode == 200) {
@@ -52,9 +51,9 @@ class _ClientInterviewState extends State<ClientInterview> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Text('No data available');
+            return const Center(child: Text('No data available'));
           } else {
             // Use a ListView.builder to display items in cards
             return ListView.builder(
