@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, depend_on_referenced_packages, unused_local_variable
+// ignore_for_file: deprecated_member_use, depend_on_referenced_packages, unused_local_variable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:workzen/job/add_job_form.dart';
@@ -121,7 +121,7 @@ class TelephonicInterview extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddJobPage()),
+            MaterialPageRoute(builder: (context) => const AddJobPage()),
           );
         },
         child: const Icon(Icons.add),
@@ -160,5 +160,5 @@ void _shareJobPost(Map<String, dynamic> item) {
   Share.share(textToShare,
       subject: post_title,
       sharePositionOrigin:
-          Rect.fromCenter(center: Offset(0, 0), width: 50, height: 50));
+          Rect.fromCenter(center: const Offset(0, 0), width: 50, height: 50));
 }

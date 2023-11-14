@@ -24,7 +24,7 @@ class _ClientInterviewState extends State<ClientInterview> {
   Future<List<dynamic>> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://workzen.in/client_interview'),
+        Uri.parse('https://workzen.in/api/client_interview'),
       );
 
       if (response.statusCode == 200) {
@@ -170,5 +170,5 @@ void _shareJobPost(Map<String, dynamic> item) {
   Share.share(imageToShare,
       subject: post_title,
       sharePositionOrigin:
-          Rect.fromCenter(center: Offset(0, 0), width: 50, height: 50));
+          Rect.fromCenter(center: const Offset(0, 0), width: 50, height: 50));
 }

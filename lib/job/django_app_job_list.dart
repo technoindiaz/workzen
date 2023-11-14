@@ -23,18 +23,18 @@ class _JobListScreenState extends State<JobListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Job List'),
+        title: const Text('Job List'),
         backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text('No data available');
+            return const Text('No data available');
           } else {
             // Use a ListView.builder to display items in cards
             return ListView.builder(
@@ -43,7 +43,7 @@ class _JobListScreenState extends State<JobListScreen> {
                 final item = snapshot.data![index];
                 return Card(
                   elevation: 2.0, // Add elevation for a shadow effect
-                  margin: EdgeInsets.all(10.0), // Add margin for spacing
+                  margin: const EdgeInsets.all(10.0), // Add margin for spacing
                   child: ListTile(
                     leading: Image.network(
                       item[

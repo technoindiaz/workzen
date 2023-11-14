@@ -120,9 +120,11 @@ class _AddJobPageState extends State<AddJobPage> {
                 height: 40,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Form data is valid, you can submit it
@@ -143,9 +145,11 @@ class _AddJobPageState extends State<AddJobPage> {
                       }
                     }
                   },
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Submit'),
                   ),
                 ),
               ),
